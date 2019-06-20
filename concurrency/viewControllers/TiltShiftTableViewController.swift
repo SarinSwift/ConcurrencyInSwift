@@ -41,18 +41,22 @@ class TiltShiftTableViewController: UITableViewController {
     let name = "\(indexPath.row).png"
     let inputImage = UIImage(named: name)!
     
-    guard let filter = TiltShiftFilter(image: inputImage, radius: 3), let output = filter.outputImage else {
-      print("Failed to generate image")
-      cell.display(image: nil)
-      return cell
-    }
-    let fromRect = CGRect(origin: .zero, size: inputImage.size)
-    guard let cgImage = context.createCGImage(output, from: fromRect) else {
-      print("Image generation failed")
-      cell.display(image: nil)
-      return cell
-    }
-    cell.display(image: UIImage(cgImage: cgImage))
+//    guard let filter = TiltShiftFilter(image: inputImage, radius: 3), let output = filter.outputImage else {
+//      print("Failed to generate image")
+//      cell.display(image: nil)
+//      return cell
+//    }
+//    let fromRect = CGRect(origin: .zero, size: inputImage.size)
+//    guard let cgImage = context.createCGImage(output, from: fromRect) else {
+//      print("Image generation failed")
+//      cell.display(image: nil)
+//      return cell
+//    }
+    
+    let operation = TiltShiftOperation(image: inputImage)
+//    operation.start()
+    
+    cell.display(image: UIImage(cgImage: operation.outputImage as! CGImage))
     
     return cell
   }

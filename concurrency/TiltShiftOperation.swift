@@ -33,6 +33,7 @@ class TiltShiftOperation: Operation {
   
   // MARK: Properties
   
+  // static since we don't want to create a new context with each instance of the operation. Thread safe!
   private static let context = CIContext()
   var inputImage: UIImage?
   var outputImage: UIImage?
@@ -43,6 +44,19 @@ class TiltShiftOperation: Operation {
   }
   
   override func main() {
-    //
+    
+    // moved the longrunning tasks from cellForRowAt here
+    guard let filter = TiltShiftFilter(image: inputImage!, radius: 3), let output = filter.outputImage else {
+      print("Failed to generate image")
+      return
+    }
+    
+    let fromRect = CGRect(origin: .zero, size: inputImage!.size)
+    guard let cgImage = TiltShiftOperation.context.createCGImage(output, from: fromRect) else {
+      print("Image generation failed")
+      return
+    }
+    
+    outputImage = UIImage(cgImage: cgImage)
   }
 }
