@@ -26,34 +26,23 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import Foundation
 import UIKit
 
-class TiltShiftTableViewController: UITableViewController {
-  private let context = CIContext()
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+class TiltShiftOperation: Operation {
+  
+  // MARK: Properties
+  
+  private static let context = CIContext()
+  var inputImage: UIImage?
+  var outputImage: UIImage?
+  
+  init(image: UIImage) {
+    super.init()
+    inputImage = image
   }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "normal", for: indexPath) as! PhotoCell
-    
-    let name = "\(indexPath.row).png"
-    let inputImage = UIImage(named: name)!
-    
-    guard let filter = TiltShiftFilter(image: inputImage, radius: 3), let output = filter.outputImage else {
-      print("Failed to generate image")
-      cell.display(image: nil)
-      return cell
-    }
-    let fromRect = CGRect(origin: .zero, size: inputImage.size)
-    guard let cgImage = context.createCGImage(output, from: fromRect) else {
-      print("Image generation failed")
-      cell.display(image: nil)
-      return cell
-    }
-    cell.display(image: UIImage(cgImage: cgImage))
-    
-    return cell
+  
+  override func main() {
+    //
   }
 }
