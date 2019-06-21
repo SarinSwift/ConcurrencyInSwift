@@ -26,54 +26,16 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
+import Foundation
 import UIKit
 
-class TiltShiftTableViewController: UITableViewController {
-  
-  // MARK: Properties
-  
-  private let context = CIContext()
-  let operationQueue = OperationQueue()
-  private var urls: [URL] = []
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    guard let plist = Bundle.main.url(forResource: "Photos",
-                                      withExtension: "plist"),
-      let contents = try? Data(contentsOf: plist),
-      let serial = try? PropertyListSerialization.propertyList(
-        from: contents,
-        format: nil),
-      let serialUrls = serial as? [String] else {
-        print("Something went horribly wrong!")
-        return
-    }
-    urls = serialUrls.compactMap(URL.init)
-  }
+// protocols to pass data between operations
+// NetworkImageOperator, and TiltShiftOperator will conform to this protocol
+protocol ImageDataProvider {
+  var image: UIImage? { get }
+}
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
-  }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "normal", for: indexPath) as! PhotoCell
-    
-    // now we have 2 operations and a dependency that ties them together
-    let downloadOp = NetworkImageOperator(url: urls[indexPath.row])
-    let tiltShiftOp = TiltShiftOperation()
-    tiltShiftOp.addDependency(downloadOp)
-    
-    tiltShiftOp.completionBlock = {
-      DispatchQueue.main.async {
-        guard let cell = tableView.cellForRow(at: indexPath) as? PhotoCell else { return }
-        cell.isLoading = false
-        cell.display(image: tiltShiftOp.image)
-      }
-    }
-    
-    operationQueue.addOperation(downloadOp)
-    operationQueue.addOperation(tiltShiftOp)
-    
-    return cell
-  }
+extension NetworkImageOperator: ImageDataProvider { }
+extension TiltShiftOperation: ImageDataProvider {
+  var image: UIImage? { return outputImage }
 }

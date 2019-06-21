@@ -38,20 +38,26 @@ class TiltShiftOperation: Operation {
   var inputImage: UIImage?
   var outputImage: UIImage?
   
-  init(image: UIImage) {
-    super.init()
+  init(image: UIImage? = nil) {
     inputImage = image
+    super.init()
   }
   
   override func main() {
     
+    // check if the dependencies gives the image as output
+    let dependencyImage = dependencies.compactMap{ ($0 as? ImageDataProvider)?.image }.first
+    guard let inputImage = inputImage ?? dependencyImage else {
+      return
+    }
+    
     // moved the longrunning tasks from cellForRowAt here
-    guard let filter = TiltShiftFilter(image: inputImage!, radius: 3), let output = filter.outputImage else {
+    guard let filter = TiltShiftFilter(image: inputImage, radius: 3), let output = filter.outputImage else {
       print("Failed to generate image")
       return
     }
     
-    let fromRect = CGRect(origin: .zero, size: inputImage!.size)
+    let fromRect = CGRect(origin: .zero, size: inputImage.size)
     guard let cgImage = TiltShiftOperation.context.createCGImage(output, from: fromRect) else {
       print("Image generation failed")
       return
