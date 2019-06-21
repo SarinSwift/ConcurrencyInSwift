@@ -57,6 +57,6 @@ class TiltShiftOperation: Operation {
       return
     }
     
-    outputImage = UIImage(cgImage: cgImage)
+    outputImage = UIImage(cgImage: cgImage) 
   }
 }

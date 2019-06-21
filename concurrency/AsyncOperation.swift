@@ -26,54 +26,46 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-import UIKit
+import Foundation
 
-class TiltShiftTableViewController: UITableViewController {
-  
-  // MARK: Properties
-  
-  private let context = CIContext()
-  let operationQueue = OperationQueue()
-  private var urls: [URL] = []
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    guard let plist = Bundle.main.url(forResource: "Photos",
-                                      withExtension: "plist"),
-      let contents = try? Data(contentsOf: plist),
-      let serial = try? PropertyListSerialization.propertyList(
-        from: contents,
-        format: nil),
-      let serialUrls = serial as? [String] else {
-        print("Something went horribly wrong!")
-        return
+class AsyncOperation: Operation {
+  enum State: String {
+    case ready, executing, finished
+    
+    fileprivate var keyPath: String {
+      return "is\(rawValue.capitalized)"
     }
-    urls = serialUrls.compactMap(URL.init)
   }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
-  }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "normal", for: indexPath) as! PhotoCell
-    
-    let name = "\(indexPath.row).png"
-    let inputImage = UIImage(named: name)!
-    
-    let op = NetworkImageOperator(url: urls[indexPath.row])
-    let operation = TiltShiftOperation(image: inputImage)
-    operation.completionBlock = {
-      DispatchQueue.main.async {
-        guard let cell = tableView.cellForRow(at: indexPath) as? PhotoCell else { return }
-        cell.isLoading = false
-        cell.display(image: op.image)
-      }
+  
+  var state = State.ready {
+    willSet {
+      willChangeValue(forKey: newValue.keyPath)
+      willChangeValue(forKey: state.keyPath)
     }
-    
-    operationQueue.addOperation(operation)
-    operationQueue.addOperation(op)
-    
-    return cell
+    didSet {
+      didChangeValue(forKey: oldValue.keyPath)
+      didChangeValue(forKey: state.keyPath)
+    }
+  }
+  
+  override var isReady: Bool {
+    return super.isReady && state == .ready
+  }
+  
+  override var isExecuting: Bool {
+    return state == .executing
+  }
+  
+  override var isFinished: Bool {
+    return state == .finished
+  }
+  
+  override var isAsynchronous: Bool {
+    return true
+  }
+  
+  override func start() {
+    main()
+    state = .executing
   }
 }

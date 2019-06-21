@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		043A7DFF22BC48FA00E5D3DC /* TiltShiftOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A7DFE22BC48FA00E5D3DC /* TiltShiftOperation.swift */; };
 		043A7E0122BC554A00E5D3DC /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A7E0022BC554A00E5D3DC /* PhotoCell.swift */; };
+		043A7E0322BC57FC00E5D3DC /* NetworkImageOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A7E0222BC57FC00E5D3DC /* NetworkImageOperator.swift */; };
+		043A7E0522BC5BF000E5D3DC /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A7E0422BC5BF000E5D3DC /* AsyncOperation.swift */; };
+		043A7E0722BC7A8200E5D3DC /* Photos.plist in Resources */ = {isa = PBXBuildFile; fileRef = 043A7E0622BC7A8200E5D3DC /* Photos.plist */; };
 		5394F02521864DF5006E754C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5394F02321864DF4006E754C /* LaunchScreen.storyboard */; };
 		D27437502211DC9F00B1E02F /* TiltShiftTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D274374F2211DC9F00B1E02F /* TiltShiftTableViewController.swift */; };
 		D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F2071F4A9144005CD714 /* Main.storyboard */; };
@@ -21,6 +24,9 @@
 /* Begin PBXFileReference section */
 		043A7DFE22BC48FA00E5D3DC /* TiltShiftOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiltShiftOperation.swift; path = concurrency/TiltShiftOperation.swift; sourceTree = SOURCE_ROOT; };
 		043A7E0022BC554A00E5D3DC /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoCell.swift; path = concurrency/views/PhotoCell.swift; sourceTree = SOURCE_ROOT; };
+		043A7E0222BC57FC00E5D3DC /* NetworkImageOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkImageOperator.swift; path = concurrency/NetworkImageOperator.swift; sourceTree = SOURCE_ROOT; };
+		043A7E0422BC5BF000E5D3DC /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AsyncOperation.swift; path = concurrency/AsyncOperation.swift; sourceTree = SOURCE_ROOT; };
+		043A7E0622BC7A8200E5D3DC /* Photos.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Photos.plist; path = concurrency/Photos.plist; sourceTree = SOURCE_ROOT; };
 		5394F02421864DF4006E754C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D274374F2211DC9F00B1E02F /* TiltShiftTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TiltShiftTableViewController.swift; sourceTree = "<group>"; };
 		D2A5F2001F4A9144005CD714 /* Concurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Concurrency.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,10 +99,13 @@
 			children = (
 				D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */,
 				043A7DFE22BC48FA00E5D3DC /* TiltShiftOperation.swift */,
+				043A7E0222BC57FC00E5D3DC /* NetworkImageOperator.swift */,
+				043A7E0422BC5BF000E5D3DC /* AsyncOperation.swift */,
 				043A7DFC22BC414600E5D3DC /* viewControllers */,
 				043A7DFB22BC412900E5D3DC /* storyboards */,
 				043A7DFD22BC416D00E5D3DC /* views */,
 				D2A5F20A1F4A9144005CD714 /* Assets.xcassets */,
+				043A7E0622BC7A8200E5D3DC /* Photos.plist */,
 				D2A5F20F1F4A9144005CD714 /* Info.plist */,
 			);
 			path = Concurrency;
@@ -164,6 +173,7 @@
 				5394F02521864DF5006E754C /* LaunchScreen.storyboard in Resources */,
 				D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */,
 				D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */,
+				043A7E0722BC7A8200E5D3DC /* Photos.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,10 +185,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
+				043A7E0322BC57FC00E5D3DC /* NetworkImageOperator.swift in Sources */,
 				D2CC8F0F220890C50025B523 /* TiltShiftFilter.swift in Sources */,
 				D2CC8F11220C93EF0025B523 /* ExampleViewController.swift in Sources */,
 				D27437502211DC9F00B1E02F /* TiltShiftTableViewController.swift in Sources */,
 				043A7E0122BC554A00E5D3DC /* PhotoCell.swift in Sources */,
+				043A7E0522BC5BF000E5D3DC /* AsyncOperation.swift in Sources */,
 				043A7DFF22BC48FA00E5D3DC /* TiltShiftOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
