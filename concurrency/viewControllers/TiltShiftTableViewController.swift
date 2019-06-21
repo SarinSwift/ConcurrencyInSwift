@@ -30,6 +30,7 @@ import UIKit
 
 class TiltShiftTableViewController: UITableViewController {
   private let context = CIContext()
+  let operationQueue = OperationQueue()
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return 10
@@ -41,22 +42,16 @@ class TiltShiftTableViewController: UITableViewController {
     let name = "\(indexPath.row).png"
     let inputImage = UIImage(named: name)!
     
-//    guard let filter = TiltShiftFilter(image: inputImage, radius: 3), let output = filter.outputImage else {
-//      print("Failed to generate image")
-//      cell.display(image: nil)
-//      return cell
-//    }
-//    let fromRect = CGRect(origin: .zero, size: inputImage.size)
-//    guard let cgImage = context.createCGImage(output, from: fromRect) else {
-//      print("Image generation failed")
-//      cell.display(image: nil)
-//      return cell
-//    }
-    
     let operation = TiltShiftOperation(image: inputImage)
-//    operation.start()
+    operation.completionBlock = {
+      DispatchQueue.main.async {
+        guard let cell = tableView.cellForRow(at: indexPath) as? PhotoCell else { return }
+        cell.isLoading = false
+        cell.display(image: operation.outputImage)
+      }
+    }
     
-    cell.display(image: UIImage(cgImage: operation.outputImage as! CGImage))
+    operationQueue.addOperation(operation)
     
     return cell
   }
